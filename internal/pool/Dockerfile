@@ -1,7 +1,8 @@
 # To regenerate CA bundle into pool.go
 # docker build -t cabin-gen .
-# docker run --rm -ti -v /go/src/github.com/nogoegst/cabin/internal/pool:/workdir cabin-gen
-FROM golang:1.11-alpine3.8
-RUN apk add --no-cache ca-certificates
+# docker run --rm cabin-gen > pool.go
+FROM golang:1.12-alpine3.9
+RUN apk add ca-certificates
 WORKDIR /workdir
-CMD ["go", "generate"]
+COPY generate.go .
+CMD go generate generate.go && cat pool.go
