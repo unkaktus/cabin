@@ -44,9 +44,9 @@ package pool
 
 import (
 	"crypto/x509"
+	"fmt"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 )
 
 func Magic() {
@@ -57,24 +57,28 @@ func Magic() {
 }
 
 func InitSystemPool() error {
-	tmpf, err := ioutil.TempFile("/", "cabin")
+	err := os.MkdirAll(os.TempDir(), 0444)
 	if err != nil {
-		return err
+		return fmt.Errorf("create tempdir: %w", err)
 	}
-	filename := filepath.Join("/", tmpf.Name())
+	tmpf, err := ioutil.TempFile(os.TempDir(), "cabin")
+	if err != nil {
+		return fmt.Errorf("create temp file: %w", err)
+	}
+	filename := tmpf.Name()
 	defer os.Remove(filename)
 	err = ioutil.WriteFile(filename, cacerts, 0400)
 	if err != nil {
-		return err
+		return fmt.Errorf("write to temp file: %w", err)
 	}
 	err = os.Setenv("SSL_CERT_FILE", filename)
 	if err != nil {
-		return err
+		return fmt.Errorf("set environment variable: %w", err)
 	}
 	defer os.Unsetenv("SSL_CERT_FILE")
 	_, err = x509.SystemCertPool()
 	if err != nil {
-		return err
+		return fmt.Errorf("load system cert pool: %w", err)
 	}
 	return nil
 }
