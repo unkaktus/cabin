@@ -8,7 +8,7 @@
 package magic
 
 import (
-	"github.com/nogoegst/cabin/internal/pool"
+	"github.com/unkaktus/cabin/internal/pool"
 )
 
 func init() {

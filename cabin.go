@@ -10,7 +10,7 @@ package cabin
 import (
 	"crypto/x509"
 
-	"github.com/nogoegst/cabin/internal/pool"
+	"github.com/unkaktus/cabin/internal/pool"
 )
 
 func NewCertPool() *x509.CertPool {

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	_ "github.com/nogoegst/cabin/magic"
+	_ "github.com/unkaktus/cabin/magic"
 )
 
 func main() {
